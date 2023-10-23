@@ -1,8 +1,10 @@
 module.exports = app => {
     const video = require('../controllers/video');
-    const user = require('../controllers/user');
+    // const user = require('../controllers/user');
     const message = require('../controllers/message');
+    const pdfController = require('../controllers/pdfController');
     const router = require('express').Router();
+    const upload = require('../middleware/mutler')
 
     // video
     router.post('/videos', video.create);
@@ -16,6 +18,10 @@ module.exports = app => {
     //message
     router.get('/messages', message.findAll);
     router.get('/messages/:roomId', message.findByRoomId);
+
+    //pdf
+    router.post('/upload', upload.single('pdf'), pdfController.uploadPDF);
+    router.get('/:id', pdfController.getPDF);
 
     app.use('/api/', router); 
 }
